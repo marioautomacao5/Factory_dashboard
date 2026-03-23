@@ -7,7 +7,6 @@ seaborn
 statsmodels
 scikit-learn
 collections-extended
-pywin32
 beautifulsoup4
 requests
 streamlit
