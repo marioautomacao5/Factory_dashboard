@@ -40,7 +40,7 @@ st_autorefresh(interval=60000)
 # ======================================================
 
 st.title("🏭 Packging view dashboard")
-st.caption("Refresh up to one minute")
+st.caption("Refresh each minute")
 st.divider()
 
 # ======================================================

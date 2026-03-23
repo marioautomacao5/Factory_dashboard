@@ -10,6 +10,8 @@ __pycache__/
 
 # Banco de dados
 *.db
+data/warehouse/producao_backup.duckdb
+data/map*
 
 # Logs
 logs/
