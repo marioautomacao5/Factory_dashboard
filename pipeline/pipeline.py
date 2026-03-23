@@ -15,11 +15,11 @@ import re  # ✅ NOVO
 # CONFIGURAÇÕES
 # ======================================================
 
-usuario = "dash.producao"
-senha = "Ebba@123456789"
+usuario = "***************"
+senha = "************"
 
-LOGIN_URL = "https://prodwin.ebba.com.br/Usuario.Login.aspx?cmd=logout"
-RELATORIO_URL = "https://prodwin.ebba.com.br/report/default/producao/RelatorioProducaoHora.aspx"
+LOGIN_URL = "#"
+RELATORIO_URL = "#"
 
 MAQUINAS = ["9","6","10","22","5","1","2","3","18","12","17","16","20","21"]
 

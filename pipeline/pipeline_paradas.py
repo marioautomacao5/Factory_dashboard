@@ -12,11 +12,11 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 # CONFIGURAÇÕES
 # ======================================================
 
-usuario = "dash.paradas"
-senha = "Ebba@123456789"
+usuario = "***********"
+senha = "************"
 
-LOGIN_URL = "https://prodwin.ebba.com.br/Usuario.Login.aspx?cmd=logout"
-RELATORIO_URL = "https://prodwin.ebba.com.br/report/default/parada/OcorrenciaParada.aspx"
+LOGIN_URL = "#"
+RELATORIO_URL = "#"
 
 DATA_RELATORIO_SITE = datetime.now().strftime("%d/%m/%Y")
 

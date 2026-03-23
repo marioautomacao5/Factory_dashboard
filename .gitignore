@@ -1,12 +1,38 @@
-```
+# Ambientes virtuais
 venv/
 dashboard_producao_online/
+
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Banco de dados
 *.db
 *.duckdb
-logs/
 data/raw/
 data/staging/
 data/warehouse/
+
+# Logs
+logs/
+
+# Scripts sensíveis/locais
+scripts/debug_BD.ipynb
+scripts/reset_duckdb.py
+
+# Variáveis de ambiente
 .env
+.env.*
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Sistema
+.DS_Store
+Thumbs.db
