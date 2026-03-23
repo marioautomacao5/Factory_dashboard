@@ -10,10 +10,6 @@ __pycache__/
 
 # Banco de dados
 *.db
-*.duckdb
-data/raw/
-data/staging/
-data/warehouse/
 
 # Logs
 logs/
