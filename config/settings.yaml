@@ -1,0 +1,6 @@
+app:
+  refresh_seconds: 60
+  page_title: "Dashboard de Produção"
+
+database:
+  file: "data/warehouse/producao.duckdb"

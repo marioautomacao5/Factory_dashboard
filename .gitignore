@@ -1,0 +1,12 @@
+```
+venv/
+dashboard_producao_online/
+__pycache__/
+*.pyc
+*.db
+*.duckdb
+logs/
+data/raw/
+data/staging/
+data/warehouse/
+.env
