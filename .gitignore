@@ -1,6 +1,7 @@
 # Ambientes virtuais
 venv/
 dashboard_producao_online/
+factory-dash/
 
 # Python
 __pycache__/
