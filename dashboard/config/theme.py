@@ -21,53 +21,51 @@ def aplicar_tema():
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
         }
 
-        /* DESTAQUE DA LEGENDA (Texto Superior) */
-        div[data-testid="stMetricLabel"] > div > p {
-            color: #ffffff !important; /* Branco puro para destaque total */
-            font-size: 1.15rem !important; /* Aumentado levemente */
-            font-weight: 700 !important; /* Negrito extra */
+        /* DESTAQUE DAS LEGENDAS (Labels de todas as colunas) */
+        /* Usamos seletores múltiplos para garantir que nada sobrescreva o branco */
+        [data-testid="stMetricLabel"] p, 
+        [data-testid="stMetricLabel"] > div > p,
+        [data-testid="stMetricLabel"] label {
+            color: #ffffff !important;
+            font-size: 1.15rem !important;
+            font-weight: 700 !important;
             text-transform: uppercase;
-            letter-spacing: 1.5px; /* Mais espaçamento para leitura industrial */
+            letter-spacing: 1.5px;
+            opacity: 1 !important; /* Resolve o problema de parecer 'apagado' */
             margin-bottom: 5px;
         }
 
-        /* DESTAQUE DO VALOR (Número) */
-        div[data-testid="stMetricValue"] > div {
+        /* DESTAQUE DO VALOR (Número de todas as colunas) */
+        [data-testid="stMetricValue"] div,
+        [data-testid="stMetricValue"] > div {
             color: #ffffff !important;
-            font-size: 2.5rem !important; /* Aumentado para impacto */
+            font-size: 2.5rem !important;
             font-weight: 800 !important;
+            opacity: 1 !important;
         }
 
         /* --- CARDS DOS GRÁFICOS --- */
-        /* Alvo: Contêineres que possuem borda (st.container(border=True)) */
+        /* Estiliza o contêiner border=True para parecer um card industrial */
         div[data-testid="stVerticalBlockBorderWrapper"] {
             background-color: #1b1f2a !important;
             border: 1px solid #2d323e !important;
             border-radius: 12px !important;
-            padding: 10px !important;
-            margin-bottom: 15px !important;
+            padding: 15px !important;
+            margin-bottom: 20px !important;
         }
 
-        /* Títulos do Dashboard */
-        h1, h2, h3, h4 {
-            color: white !important;
-            font-weight: 700 !important;
-        }
-
-        /* Remove linhas extras de divisores dentro de cards se necessário */
-        hr {
-            margin: 1em 0 !important;
-            border-top: 1px solid #2d323e !important;
-        }
+        /* Ajuste de títulos e divisores */
+        h1, h2, h3, h4 { color: white !important; font-weight: 700 !important; }
+        hr { border-top: 1px solid #2d323e !important; }
+        
         </style>
         """,
         unsafe_allow_html=True
     )
 
     # 2. Configuração Global do Plotly
-    # Definimos como 'plotly_dark' e forçamos transparência total 
-    # para que o gráfico herde o fundo #1b1f2a dos nossos cards.
     pio.templates.default = "plotly_dark"
     pio.templates["plotly_dark"].layout.paper_bgcolor = 'rgba(0,0,0,0)'
     pio.templates["plotly_dark"].layout.plot_bgcolor = 'rgba(0,0,0,0)'
     pio.templates["plotly_dark"].layout.font.color = 'white'
+    pio.templates["plotly_dark"].layout.margin = dict(t=80, b=40, l=40, r=40)
