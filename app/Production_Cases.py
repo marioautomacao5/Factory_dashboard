@@ -5,7 +5,7 @@ import pandas as pd
 ROOT_DIR = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT_DIR))
 
-import none as st
+import streamlit as st
 from streamlit_autorefresh import st_autorefresh
 
 from dashboard.config.theme import aplicar_tema
