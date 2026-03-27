@@ -5,7 +5,7 @@ import pandas as pd
 ROOT_DIR = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT_DIR))
 
-import streamlit as st
+import none as st
 from streamlit_autorefresh import st_autorefresh
 
 from dashboard.config.theme import aplicar_tema
@@ -155,12 +155,12 @@ with col1:
                 meta_oee=metricas.get("meta_oee_filtrada", 85)
             ),
             width="stretch", 
-            theme="streamlit"
+            theme="none"
         )
         st.plotly_chart(
             rosquinha_turnos(df),
             width="stretch",
-            theme="streamlit"
+            theme="none"
         )
 
 
@@ -173,12 +173,12 @@ with col2:
                 meta_oee=metricas.get("meta_oee_filtrada", 85)
             ),
             width='stretch',
-            theme="streamlit"
+            theme="none"
         )
         st.plotly_chart(
             pareto_paradas_turno(df_paradas),
             width="stretch",
-            theme="streamlit"
+            theme="none"
         )
 
 st.divider()
@@ -187,7 +187,7 @@ st.plotly_chart(
             linha_ritmo_global(metricas.get("Velocidade_nominal_individual")),
             width="stretch",
             key="Velocidade_individual",
-            theme="streamlit"
+            theme="none"
         )
 
 st.divider()
@@ -196,7 +196,7 @@ st.plotly_chart(
             linha_ritmo_soma(metricas.get("velocidade_medida_global_soma")),
             width="stretch",
             key="Velocidade_agragada_por_soma",
-            theme="streamlit"
+            theme="none"
         )
 
 st.divider()
@@ -205,5 +205,5 @@ st.plotly_chart(
             linha_ritmo_media(metricas.get("velocidade_medida_global_media")),
             width="stretch",
             key="Velocidade_agregada_por_media",
-            theme="streamlit"
+            theme="none"
         )
