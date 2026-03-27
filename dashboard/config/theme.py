@@ -27,10 +27,10 @@ def aplicar_tema():
         [data-testid="stMetricLabel"] > div > p,
         [data-testid="stMetricLabel"] label {
             color: #ffffff !important;
-            font-size: 1.15rem !important;
+            font-size: 0.75rem !important;
             font-weight: 700 !important;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.15px;
             opacity: 1 !important; /* Resolve o problema de parecer 'apagado' */
             margin-bottom: 5px;
         }
