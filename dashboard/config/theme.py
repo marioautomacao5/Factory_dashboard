@@ -28,6 +28,14 @@ def aplicar_tema():
             padding: 15px;
             margin-bottom: 20px;
         }
+
+        /* Estilo para transformar contêineres específicos em cards */
+        div[data-testid="stVerticalBlockBorderWrapper"] > div > div > div[data-testid="stVerticalBlock"] > div.element-container:has(iframe) {
+            background-color: #1b1f2a;
+            border: 1px solid #2d323e;
+            border-radius: 12px;
+            padding: 15px;
+        }
         
         /* Destaque do Valor da Métrica (Número) */
         div[data-testid="stMetricValue"] > div {
