@@ -149,6 +149,7 @@ col1, col2 = st.columns([1, 2])
 with col1:
     sub = st.container()
     with sub:
+        st.markdown('<div class="chart-card">', unsafe_allow_html=True)
         st.plotly_chart(
             gauge_oee(
                 valor=metricas.get("oee_turno", 0),
@@ -157,16 +158,21 @@ with col1:
             width="stretch", 
             theme=None
         )
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        st.markdown('<div class="chart-card">', unsafe_allow_html=True)
         st.plotly_chart(
             rosquinha_turnos(df),
             width="stretch",
             theme=None
         )
+        st.markdown('</div>', unsafe_allow_html=True)
 
 
 with col2:
     sub = st.container()
     with sub:
+        st.markdown('<div class="chart-card">', unsafe_allow_html=True)
         st.plotly_chart(
             linha_oee(
                 df=metricas.get("df_1h", pd.DataFrame()),
@@ -175,23 +181,30 @@ with col2:
             width='stretch',
             theme=None
         )
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        st.markdown('<div class="chart-card">', unsafe_allow_html=True)
         st.plotly_chart(
             pareto_paradas_turno(df_paradas),
             width="stretch",
             theme=None
         )
+        st.markdown('</div>', unsafe_allow_html=True)
 
 st.divider()
 
+st.markdown('<div class="chart-card">', unsafe_allow_html=True)
 st.plotly_chart(
             linha_ritmo_global(metricas.get("Velocidade_nominal_individual")),
             width="stretch",
             key="Velocidade_individual",
             theme=None
         )
+st.markdown('</div>', unsafe_allow_html=True)
 
 st.divider()
 
+st.markdown('<div class="chart-card">', unsafe_allow_html=True)
 st.plotly_chart(
             linha_ritmo_soma(metricas.get("velocidade_medida_global_soma")),
             width="stretch",
@@ -199,11 +212,16 @@ st.plotly_chart(
             theme=None
         )
 
+st.markdown('</div>', unsafe_allow_html=True)
+
 st.divider()
 
+st.markdown('<div class="chart-card">', unsafe_allow_html=True)
 st.plotly_chart(
             linha_ritmo_media(metricas.get("velocidade_medida_global_media")),
             width="stretch",
             key="Velocidade_agregada_por_media",
             theme=None
         )
+
+st.markdown('</div>', unsafe_allow_html=True)
