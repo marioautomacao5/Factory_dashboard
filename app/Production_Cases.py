@@ -154,11 +154,13 @@ with col1:
                 valor=metricas.get("oee_turno", 0),
                 meta_oee=metricas.get("meta_oee_filtrada", 85)
             ),
-            width="stretch"
+            width="stretch", 
+            theme="streamlit"
         )
         st.plotly_chart(
             rosquinha_turnos(df),
-            width="stretch"
+            width="stretch",
+            theme="streamlit"
         )
 
 
@@ -170,11 +172,13 @@ with col2:
                 df=metricas.get("df_1h", pd.DataFrame()),
                 meta_oee=metricas.get("meta_oee_filtrada", 85)
             ),
-            width='stretch'
+            width='stretch',
+            theme="streamlit"
         )
         st.plotly_chart(
             pareto_paradas_turno(df_paradas),
-            width="stretch"
+            width="stretch",
+            theme="streamlit"
         )
 
 st.divider()
@@ -182,7 +186,8 @@ st.divider()
 st.plotly_chart(
             linha_ritmo_global(metricas.get("Velocidade_nominal_individual")),
             width="stretch",
-            key="Velocidade_individual"
+            key="Velocidade_individual",
+            theme="streamlit"
         )
 
 st.divider()
@@ -190,7 +195,8 @@ st.divider()
 st.plotly_chart(
             linha_ritmo_soma(metricas.get("velocidade_medida_global_soma")),
             width="stretch",
-            key="Velocidade_agragada_por_soma"
+            key="Velocidade_agragada_por_soma",
+            theme="streamlit"
         )
 
 st.divider()
@@ -198,5 +204,6 @@ st.divider()
 st.plotly_chart(
             linha_ritmo_media(metricas.get("velocidade_medida_global_media")),
             width="stretch",
-            key="Velocidade_agregada_por_media"
+            key="Velocidade_agregada_por_media",
+            theme="streamlit"
         )
