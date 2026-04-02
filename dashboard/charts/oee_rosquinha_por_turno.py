@@ -14,10 +14,10 @@ def rosquinha_turnos(df):
 
     fig = px.pie(
         turno_df,
-        names="Turno",
+        names="Shift",
         values="OEE",
         hole=0.5,
-        title="OEE por Turno",
+        title="OEE by Shift",
         # Definindo cores fixas para os turnos (opcional, mas ajuda na consistência)
         color_discrete_sequence=px.colors.qualitative.Pastel
     )
@@ -40,7 +40,7 @@ def rosquinha_turnos(df):
         font_color="white",
         
         title={
-            "text": "OEE por Turno",
+            "text": "OEE by Shift",
             "y": 0.95,
             "x": 0.5,
             "xanchor": "center",

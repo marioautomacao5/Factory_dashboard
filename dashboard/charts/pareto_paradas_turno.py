@@ -83,7 +83,7 @@ def pareto_paradas_turno(df):
     # ======================================================
     fig.update_layout(
         title={
-            "text": "Pareto - Top 5 Paradas (Turno Atual)",
+            "text": "Pareto – Top 5 Downtimes (Current Shift)",
             "font": {"color": "white", "size": 18},
             "x": 0.5,
             "xanchor": "center"
@@ -96,7 +96,7 @@ def pareto_paradas_turno(df):
 
         # Eixo Y Esquerdo (Minutos)
         yaxis=dict(
-            title="Tempo parado (minutos)",
+            title="Downtime (Minutes)",
             gridcolor="#2d323e",
             zerolinecolor="#2d323e",
             tickfont=dict(color="white")
@@ -104,7 +104,7 @@ def pareto_paradas_turno(df):
 
         # Eixo Y Direito (% Acumulada)
         yaxis2=dict(
-            title="% Acumulado",
+            title="Cumulative %",
             overlaying="y",
             side="right",
             tickformat=".0%",
@@ -114,7 +114,7 @@ def pareto_paradas_turno(df):
         ),
 
         xaxis=dict(
-            title="Motivo Parada",
+            title="Downtime Reason",
             gridcolor="#2d323e",
             tickfont=dict(color="white")
         ),

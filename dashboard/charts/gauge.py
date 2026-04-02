@@ -20,7 +20,7 @@ def gauge_oee(valor, meta_oee=85.0):
         go.Indicator(
             mode="gauge+number",
             value=valor,
-            title={"text": "OEE do turno atual", "font": {"color": "white", "size": 18}},
+            title={"text": "Current Shift OEE", "font": {"color": "white", "size": 18}},
             number={"font": {"color": "white"}}, # Cor do número central
             gauge={
                 "axis": {

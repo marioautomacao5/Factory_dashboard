@@ -22,7 +22,7 @@ def linha_ritmo_global(ciclo_medio_global):
         )
 
     fig.update_layout(
-        title={"text": "Velocidade instantânea por linha", "font": {"color": "white"}},
+        title={"text": "Real-Time Speed per Line", "font": {"color": "white"}},
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
         font_color="white",
@@ -52,7 +52,7 @@ def linha_ritmo_soma(ciclo_medio_global):
     )
 
     fig.update_layout(
-        title={"text": "Velocidade instantânea agregada por soma", "font": {"color": "white"}},
+        title={"text": "Aggregated Real-Time Speed (Sum)", "font": {"color": "white"}},
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
         font_color="white",
@@ -81,7 +81,7 @@ def linha_ritmo_media(ciclo_medio_global):
     )
 
     fig.update_layout(
-        title={"text": "Velocidade instantânea agregada por média", "font": {"color": "white"}},
+        title={"text": "Aggregated Real-Time Speed (Average)", "font": {"color": "white"}},
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
         font_color="white",

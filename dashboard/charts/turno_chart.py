@@ -15,9 +15,9 @@ def grafico_turno(df):
     # Criando o gráfico de barras
     fig = px.bar(
         turno_df,
-        x="Turno",
+        x="Shift",
         y="OEE",
-        title="OEE por Turno",
+        title="OEE by Shift",
         text_auto='.2f', # Exibe o valor do OEE em cima da barra com 2 casas decimais
         color="Turno",   # Dá uma cor diferente para cada turno
         color_discrete_sequence=px.colors.qualitative.Safe # Paleta de cores visível no escuro
@@ -37,14 +37,14 @@ def grafico_turno(df):
         font_color="white",
         
         title={
-            "text": "OEE Médio por Turno",
+            "text": "Average OEE by Shift",
             "font": {"size": 20, "color": "white"},
             "x": 0.5,
             "xanchor": "center"
         },
 
         xaxis=dict(
-            title="Turnos de Produção",
+            title="Production Shifts",
             gridcolor="#2d323e",
             tickfont=dict(color="white")
         ),

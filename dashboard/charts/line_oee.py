@@ -16,7 +16,7 @@ def linha_oee(df, meta_oee=None):
             x=df_media["timestamp"],
             y=df_media["OEE"],
             mode="lines+markers",
-            name="OEE Médio",
+            name="Average OEE",
             line=dict(shape="spline", smoothing=1.2, color="#636EFA"), # Azul vibrante para destacar no escuro
             marker=dict(size=6)
         )
@@ -29,7 +29,7 @@ def linha_oee(df, meta_oee=None):
                 x=df_media["timestamp"],
                 y=[meta_oee] * len(df_media),
                 mode="lines",
-                name="Meta OEE",
+                name="OEE target",
                 line=dict(color="#EF553B", width=2, dash="dash") # Vermelho mais visível no dark
             )
         )
@@ -37,7 +37,7 @@ def linha_oee(df, meta_oee=None):
     # AJUSTES DE TEMA E TRANSPARÊNCIA
     fig.update_layout(
         title={
-            "text": "OEE instantâneo",
+            "text": "Real-Time OEE",
             "font": {"color": "white", "size": 18}
         },
         # Transparência total do fundo
