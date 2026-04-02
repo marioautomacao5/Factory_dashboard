@@ -14,7 +14,7 @@ def rosquinha_turnos(df):
 
     fig = px.pie(
         turno_df,
-        names="Shift",
+        names="Turno",
         values="OEE",
         hole=0.5,
         title="OEE by Shift",
