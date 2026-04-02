@@ -1,28 +1,20 @@
 import plotly.graph_objects as go
 import pandas as pd
-import numpy as np
-
 
 def linha_ritmo_global(ciclo_medio_global):
     ciclo_medio_global["hora"] = pd.to_datetime(ciclo_medio_global["hora"])
-    agora = pd.Timestamp.now()
+    agora = df["hora"].max()
     limite = agora - pd.Timedelta(hours=2)
     df = ciclo_medio_global[ciclo_medio_global["hora"] >= limite]
 
     fig = go.Figure()
 
     for linha in df["LinhaProducao"].unique():
-        sub = df[df["LinhaProducao"] == linha].copy()
-
-        # 🔥 SIMULAÇÃO FAKE (ruído + leve oscilação)
-        ruido = np.random.normal(0, 0.03, len(sub))
-        tendencia = np.sin(np.linspace(0, 3, len(sub))) * 0.02
-        sub["velocidade_fake"] = sub["velocidade_medida_global"] * (1 + ruido + tendencia)
-
+        sub = df[df["LinhaProducao"] == linha]
         fig.add_trace(
             go.Scatter(
                 x=sub["hora"],
-                y=sub["velocidade_fake"],
+                y=sub["velocidade_medida_global"],
                 mode="lines+markers",
                 name=linha,
                 line=dict(shape="spline", smoothing=1.2)
@@ -42,26 +34,20 @@ def linha_ritmo_global(ciclo_medio_global):
     )
     return fig
 
-
 def linha_ritmo_soma(ciclo_medio_global):
     ciclo_medio_global["hora"] = pd.to_datetime(ciclo_medio_global["hora"])
-    agora = pd.Timestamp.now()
+    agora = df["hora"].max()
     limite = agora - pd.Timedelta(hours=3)
-    df = ciclo_medio_global[ciclo_medio_global["hora"] >= limite].copy()
-
-    # 🔥 SIMULAÇÃO FAKE
-    ruido = np.random.normal(0, 0.02, len(df))
-    tendencia = np.sin(np.linspace(0, 3, len(df))) * 0.015
-    df["velocidade_fake"] = df["velocidade_medida_global_soma"] * (1 + ruido + tendencia)
+    df = ciclo_medio_global[ciclo_medio_global["hora"] >= limite]
 
     fig = go.Figure()
     fig.add_trace(
         go.Scatter(
             x=df["hora"],
-            y=df["velocidade_fake"],
+            y=df["velocidade_medida_global_soma"],
             mode="lines+markers",
-            name="Total Speed",
-            line=dict(shape="spline", smoothing=1.2, color="#00CC96")
+            name="Velocidade Total",
+            line=dict(shape="spline", smoothing=1.2, color="#00CC96") # Cor diferente para destaque
         )
     )
 
@@ -77,25 +63,19 @@ def linha_ritmo_soma(ciclo_medio_global):
     )
     return fig
 
-
 def linha_ritmo_media(ciclo_medio_global):
     ciclo_medio_global["hora"] = pd.to_datetime(ciclo_medio_global["hora"])
-    agora = pd.Timestamp.now()
+    agora = df["hora"].max()
     limite = agora - pd.Timedelta(hours=3)
-    df = ciclo_medio_global[ciclo_medio_global["hora"] >= limite].copy()
-
-    # 🔥 SIMULAÇÃO FAKE
-    ruido = np.random.normal(0, 0.02, len(df))
-    tendencia = np.sin(np.linspace(0, 3, len(df))) * 0.015
-    df["velocidade_fake"] = df["velocidade_medida_global_media"] * (1 + ruido + tendencia)
+    df = ciclo_medio_global[ciclo_medio_global["hora"] >= limite]
 
     fig = go.Figure()
     fig.add_trace(
         go.Scatter(
             x=df["hora"],
-            y=df["velocidade_fake"],
+            y=df["velocidade_medida_global_media"],
             mode="lines+markers",
-            name="Average Speed",
+            name="Velocidade Média",
             line=dict(shape="spline", smoothing=1.2, color="#AB63FA")
         )
     )
