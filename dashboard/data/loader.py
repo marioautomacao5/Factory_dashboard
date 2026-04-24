@@ -1,4 +1,6 @@
 from pathlib import Path
+from datetime import datetime, timedelta
+import time
 import duckdb
 import pandas as pd
 import streamlit as st
@@ -23,6 +25,56 @@ def tabela_existe(con, nome_tabela):
     return nome_tabela in tabelas
 
 # ======================================================
+# 🔄 CURSOR DE TEMPO SIMULADO (modo portfólio)
+# Lê o range do histórico uma vez por hora e devolve um
+# "agora simulado" que avança em tempo real sobre os dados,
+# reiniciando no início quando chega ao fim.
+# ======================================================
+
+@st.cache_data(ttl=3600)
+def _get_range_historico():
+    if not DB_PATH.exists():
+        return None, None
+    try:
+        con = duckdb.connect(str(DB_PATH), read_only=True)
+        tabelas = [t[0] for t in con.execute("SHOW TABLES").fetchall()]
+
+        if "producao_historico" not in tabelas:
+            con.close()
+            return None, None
+
+        row = con.execute("""
+            SELECT
+                MIN(CAST(Dia AS DATE)) AS data_min,
+                MAX(CAST(Dia AS DATE)) AS data_max
+            FROM producao_historico
+        """).fetchone()
+        con.close()
+        return row[0], row[1]
+    except Exception:
+        return None, None
+
+
+def get_tempo_simulado():
+    """
+    Retorna um datetime que avança em tempo real sobre o histórico e
+    reinicia automaticamente ao atingir o fim.
+    """
+    data_min, data_max = _get_range_historico()
+    if data_min is None or data_max is None:
+        return None
+
+    dt_min = datetime.combine(data_min, datetime.min.time())
+    dt_max = datetime.combine(data_max, datetime.max.time().replace(microsecond=0))
+
+    range_seconds = (dt_max - dt_min).total_seconds()
+    if range_seconds <= 0:
+        return dt_max
+
+    offset = time.time() % range_seconds
+    return dt_min + timedelta(seconds=offset)
+
+# ======================================================
 # 📊 PRODUÇÃO
 # ======================================================
 
@@ -43,12 +95,33 @@ def carregar_dados():
     try:
         con = duckdb.connect(str(DB_PATH), read_only=True)
 
-        if not tabela_existe(con, "producao_consulta"):
-            st.warning("Tabela producao_consulta não encontrada.")
+        # --------------------------------------------------
+        # Modo simulado: usa historico com janela deslizante
+        # Fallback: consulta (ETL rodando localmente)
+        # --------------------------------------------------
+        if tabela_existe(con, "producao_historico"):
+            tempo_simulado = get_tempo_simulado()
+            if tempo_simulado is not None:
+                dia_fim   = tempo_simulado.date()
+                dia_inicio = (tempo_simulado - timedelta(days=2)).date()
+                query_table = "producao_historico"
+                where_clause = "WHERE CAST(Dia AS DATE) BETWEEN ? AND ?"
+                params = [str(dia_inicio), str(dia_fim)]
+            else:
+                query_table = "producao_historico"
+                where_clause = ""
+                params = []
+        elif tabela_existe(con, "producao_consulta"):
+            query_table = "producao_consulta"
+            where_clause = ""
+            params = []
+        else:
+            st.warning("Nenhuma tabela de produção encontrada.")
+            con.close()
             return pd.DataFrame()
 
-        df = con.execute("""
-            SELECT 
+        df = con.execute(f"""
+            SELECT
                 Dia,
                 LinhaProducao,
                 HoraInicial,
@@ -66,9 +139,10 @@ def carregar_dados():
                 PerdaRitmo,
                 DataCarga,
                 EXTRACT(EPOCH FROM CAST(TempoTotalParada AS INTERVAL)) AS TempoTotalParada_segundos
-            FROM producao_consulta
+            FROM {query_table}
+            {where_clause}
             ORDER BY Dia DESC, HoraFinal DESC
-        """).df()
+        """, params).df()
 
         con.close()
 
@@ -128,7 +202,7 @@ def carregar_dados():
 # 🛑 PARADAS
 # ======================================================
 
-@st.cache_data(ttl=300)
+@st.cache_data(ttl=60)
 def carregar_paradas():
 
     def formatar_duracao(segundos):
@@ -145,18 +219,40 @@ def carregar_paradas():
     try:
         con = duckdb.connect(str(DB_PATH), read_only=True)
 
-        if not tabela_existe(con, "paradas_consulta"):
-            st.warning("Tabela paradas_consulta não encontrada.")
+        # --------------------------------------------------
+        # Modo simulado: usa historico com janela deslizante
+        # Fallback: consulta (ETL rodando localmente)
+        # --------------------------------------------------
+        if tabela_existe(con, "paradas_historico"):
+            tempo_simulado = get_tempo_simulado()
+            if tempo_simulado is not None:
+                dt_fim    = tempo_simulado
+                dt_inicio = tempo_simulado - timedelta(days=2)
+                query_table  = "paradas_historico"
+                where_clause = 'WHERE "Inicio" BETWEEN ? AND ?'
+                params = [str(dt_inicio), str(dt_fim)]
+            else:
+                query_table  = "paradas_historico"
+                where_clause = ""
+                params = []
+        elif tabela_existe(con, "paradas_consulta"):
+            query_table  = "paradas_consulta"
+            where_clause = ""
+            params = []
+        else:
+            st.warning("Nenhuma tabela de paradas encontrada.")
+            con.close()
             return pd.DataFrame()
 
-        df = con.execute("""
-            SELECT 
+        df = con.execute(f"""
+            SELECT
                 *,
                 TRY_CAST("Duração" AS INTERVAL) AS duracao_interval,
                 EXTRACT(EPOCH FROM TRY_CAST("Duração" AS INTERVAL)) AS duracao_segundos
-            FROM paradas_consulta
+            FROM {query_table}
+            {where_clause}
             ORDER BY "Inicio" DESC
-        """).df()
+        """, params).df()
 
         con.close()
 
