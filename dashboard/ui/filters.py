@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-def aplicar_filtros(df_producao, df_paradas):
+def aplicar_filtros(df_producao, df_paradas, unidade_rls: str | None = None):
 
     # ======================================================
     # 🔹 PADRONIZAÇÃO DOS DFs
@@ -27,21 +27,24 @@ def aplicar_filtros(df_producao, df_paradas):
     # ======================================================
     # 🔹 SESSION STATE
     # ======================================================
-    for key in ["filtro_unidade", "filtro_categoria", "filtro_linhas"]:
+    for key in ["filtro_categoria", "filtro_linhas"]:
         if key not in st.session_state:
             st.session_state[key] = []
 
     # ======================================================
-    # 🔹 FILTRO UNIDADE
+    # 🔹 RLS — UNIDADE FABRIL (definida na tela de entrada)
     # ======================================================
-    unidades = st.sidebar.multiselect(
-        "Unidade",
-        options=unidades_disponiveis,
-        key="filtro_unidade"
-    )
-
-    if not unidades:
+    if unidade_rls:
+        unidades = [unidade_rls.strip().upper()]
+    else:
         unidades = unidades_disponiveis
+
+    # Exibe a unidade ativa na sidebar (somente leitura)
+    st.sidebar.markdown("**Unidade fabril**")
+    st.sidebar.info(unidade_rls or "Todas")
+    if st.sidebar.button("Trocar unidade", use_container_width=True):
+        del st.session_state["unidade_rls"]
+        st.rerun()
 
     # Filtra paradas por unidade
     if "Unidade" in df_paradas.columns:

@@ -20,6 +20,7 @@ from dashboard.charts.oee_rosquinha_por_turno import rosquinha_turnos
 from dashboard.charts.pareto_paradas_turno import pareto_paradas_turno
 
 from dashboard.ui.filters import aplicar_filtros
+from dashboard.ui.unit_selector import exibir_seletor_unidade
 
 
 # ======================================================
@@ -32,6 +33,12 @@ st.set_page_config(
 )
 
 aplicar_tema()
+
+# ======================================================
+# RLS — SELEÇÃO DE UNIDADE FABRIL
+# ======================================================
+
+exibir_seletor_unidade()
 
 st_autorefresh(interval=60000)
 
@@ -111,7 +118,8 @@ if df.empty:
 # FILTERS
 # ======================================================
 
-df, df_paradas = aplicar_filtros(df, df_paradas)
+unidade_rls = st.session_state.get("unidade_rls")
+df, df_paradas = aplicar_filtros(df, df_paradas, unidade_rls=unidade_rls)
 
 # ======================================================
 # METRICS
