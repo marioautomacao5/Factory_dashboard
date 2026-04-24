@@ -3,9 +3,7 @@ import pandas as pd
 
 def linha_ritmo_global(ciclo_medio_global):
     ciclo_medio_global["hora"] = pd.to_datetime(ciclo_medio_global["hora"])
-    agora = ciclo_medio_global["hora"].max()
-    limite = agora - pd.Timedelta(hours=2)
-    df = ciclo_medio_global[ciclo_medio_global["hora"] >= limite]
+    df = ciclo_medio_global
 
     fig = go.Figure()
 
@@ -36,9 +34,7 @@ def linha_ritmo_global(ciclo_medio_global):
 
 def linha_ritmo_soma(ciclo_medio_global):
     ciclo_medio_global["hora"] = pd.to_datetime(ciclo_medio_global["hora"])
-    agora = ciclo_medio_global["hora"].max()
-    limite = agora - pd.Timedelta(hours=3)
-    df = ciclo_medio_global[ciclo_medio_global["hora"] >= limite]
+    df = ciclo_medio_global
 
     fig = go.Figure()
     fig.add_trace(
@@ -65,9 +61,7 @@ def linha_ritmo_soma(ciclo_medio_global):
 
 def linha_ritmo_media(ciclo_medio_global):
     ciclo_medio_global["hora"] = pd.to_datetime(ciclo_medio_global["hora"])
-    agora = ciclo_medio_global["hora"].max()
-    limite = agora - pd.Timedelta(hours=3)
-    df = ciclo_medio_global[ciclo_medio_global["hora"] >= limite]
+    df = ciclo_medio_global
 
     fig = go.Figure()
     fig.add_trace(

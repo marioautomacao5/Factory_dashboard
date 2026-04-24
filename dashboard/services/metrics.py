@@ -256,49 +256,32 @@ def calcular_metricas(df):
     total_producao_cx = producao_por_hora_turno_cx["ProducaoHoraCx"].sum()
 
     # ======================================================
-    # 🔥 VELOCIDADE MEDIDA DA LINHA
+    # 🔥 VELOCIDADE MEDIDA DA LINHA — janela 2h, pontos brutos
     # ======================================================
 
-    df_sorted = df.sort_values("HoraFinal")
+    df_vel = df[df["timestamp"] >= (agora - timedelta(hours=2))].copy()
 
-    # 2️⃣ Agrupar e pegar o último CicloMedio de cada Linha/Hora
-    velocidade_medida_global = (
-        df_sorted
-        .groupby(["LinhaProducao", "hora"])["CicloMedio"]
-        .last()  # pega o último valor após ordenar por HoraFinal
-        .reset_index(name="CicloMedio_global")
-    )
-
-    velocidade_medida_global["CicloMedio_global"] = pd.to_numeric(
-        velocidade_medida_global["CicloMedio_global"],
-        errors="coerce"
-    )
-
-    # 2️⃣ Calcular peças por segundo
-    velocidade_medida_global["pecas_por_segundo_global"] = (1 / velocidade_medida_global["CicloMedio_global"]) * 1000
-
-    # 3️⃣ Calcular velocidade medida global
-    velocidade_medida_global["velocidade_medida_global"] = velocidade_medida_global["pecas_por_segundo_global"] * 3600
-
-    velocidade_medida_global["velocidade_medida_global"] = (
-        velocidade_medida_global["velocidade_medida_global"]
+    df_vel["CicloMedio"] = pd.to_numeric(df_vel["CicloMedio"], errors="coerce")
+    df_vel["velocidade_medida_global"] = (
+        ((1 / df_vel["CicloMedio"]) * 1000 * 3600)
         .replace([float("inf"), -float("inf")], 0)
         .fillna(0)
     )
 
-    # 4️⃣ Criar DataFrame da soma por hora
+    # Individual por linha: todos os pontos brutos da janela
+    velocidade_medida_global = df_vel[["LinhaProducao", "hora", "velocidade_medida_global"]].copy()
+
+    # Soma entre linhas por instante
     velocidade_soma = (
-        velocidade_medida_global
-        .groupby("hora")["velocidade_medida_global"]
+        df_vel.groupby("hora")["velocidade_medida_global"]
         .sum()
         .reset_index()
         .rename(columns={"velocidade_medida_global": "velocidade_medida_global_soma"})
     )
 
-    # 5️⃣ Criar DataFrame da média por hora
+    # Média entre linhas por instante
     velocidade_media = (
-        velocidade_medida_global
-        .groupby("hora")["velocidade_medida_global"]
+        df_vel.groupby("hora")["velocidade_medida_global"]
         .mean()
         .reset_index()
         .rename(columns={"velocidade_medida_global": "velocidade_medida_global_media"})
