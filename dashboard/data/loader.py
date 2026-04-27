@@ -137,7 +137,6 @@ def carregar_dados():
                 Paradas,
                 TempoTotalParada,
                 PerdaRitmo,
-                DataCarga,
                 EXTRACT(EPOCH FROM CAST(TempoTotalParada AS INTERVAL)) AS TempoTotalParada_segundos
             FROM {query_table}
             {where_clause}
